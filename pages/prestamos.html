@@ -38,21 +38,21 @@
   <script>
     const formulario = document.getElementById("formulario")
     async function cargarCombos() {
-      const libros = await pedir("/php/libros/listar.php", "GET")
-      const usuarios = await pedir("/php/usuarios/listar.php", "GET")
+      const libros = await pedir("/api/libros/listar", "GET")
+      const usuarios = await pedir("/api/usuarios/listar", "GET")
       if (libros.ok) libros.datos.forEach(function (l) { document.getElementById("libroId").innerHTML += `<option value="${l._id}">${l.titulo}</option>` })
       if (usuarios.ok) usuarios.datos.forEach(function (u) { document.getElementById("usuarioId").innerHTML += `<option value="${u._id}">${u.nombre}</option>` })
     }
     async function cargarEdicion() {
       const id = tomarId()
       if (id) {
-        const r = await pedir("/php/prestamos/obtener.php?id=" + id, "GET")
+        const r = await pedir("/api/prestamos/obtener/" + id, "GET")
         if (r.ok && r.dato) llenarFormulario(formulario, r.dato)
       }
     }
     formulario.addEventListener("submit", async function (e) {
       e.preventDefault()
-      const r = await pedir("/php/prestamos/guardar.php", "POST", datosFormulario(formulario))
+      const r = await pedir("/api/prestamos/guardar", "POST", datosFormulario(formulario))
       mensaje(r, function () { location.href = "/lista-prestamos" })
     })
     cargarCombos().then(cargarEdicion)

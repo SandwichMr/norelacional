@@ -35,7 +35,7 @@
   <script>
     const formulario = document.getElementById("formulario")
     async function cargarAutores() {
-      const r = await pedir("/php/autores/listar.php", "GET")
+      const r = await pedir("/api/autores/listar", "GET")
       if (!r.ok) return
       r.datos.forEach(function (a) {
         document.getElementById("autorId").innerHTML += `<option value="${a._id}">${a.nombre}</option>`
@@ -44,13 +44,13 @@
     async function cargarEdicion() {
       const id = tomarId()
       if (id) {
-        const r = await pedir("/php/libros/obtener.php?id=" + id, "GET")
+        const r = await pedir("/api/libros/obtener/" + id, "GET")
         if (r.ok && r.dato) llenarFormulario(formulario, r.dato)
       }
     }
     formulario.addEventListener("submit", async function (e) {
       e.preventDefault()
-      const r = await pedir("/php/libros/guardar.php", "POST", datosFormulario(formulario))
+      const r = await pedir("/api/libros/guardar", "POST", datosFormulario(formulario))
       mensaje(r, function () { location.href = "/lista-libros" })
     })
     cargarAutores().then(cargarEdicion)

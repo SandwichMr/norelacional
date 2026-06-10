@@ -49,7 +49,7 @@ function ponerMenu() {
 function ponerFooter() {
   const footer = document.getElementById("pie")
   if (!footer) return
-  footer.innerHTML = "<footer><div>Biblioteca Juvenil - Node server.js, HTML separado y consultas PHP</div></footer>"
+  footer.innerHTML = "<footer><div>Biblioteca Juvenil - Node server.js, rutas app.get y app.post</div></footer>"
 }
 
 function datosFormulario(formulario) {

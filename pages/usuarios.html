@@ -35,10 +35,10 @@
   <script>
     const formulario = document.getElementById("formulario")
     const id = tomarId()
-    if (id) pedir("/php/usuarios/obtener.php?id=" + id, "GET").then(function (r) { if (r.ok && r.dato) llenarFormulario(formulario, r.dato) })
+    if (id) pedir("/api/usuarios/obtener/" + id, "GET").then(function (r) { if (r.ok && r.dato) llenarFormulario(formulario, r.dato) })
     formulario.addEventListener("submit", async function (e) {
       e.preventDefault()
-      const r = await pedir("/php/usuarios/guardar.php", "POST", datosFormulario(formulario))
+      const r = await pedir("/api/usuarios/guardar", "POST", datosFormulario(formulario))
       mensaje(r, function () { location.href = "/lista-usuarios" })
     })
   </script>

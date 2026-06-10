@@ -23,12 +23,12 @@
   <script src="/public/js/script.js"></script>
   <script>
     async function cargar() {
-      const r = await pedir("/php/usuarios/listar.php", "GET")
+      const r = await pedir("/api/usuarios/listar", "GET")
       const tabla = document.getElementById("tabla")
       tabla.innerHTML = ""
       if (!r.ok) return mensaje(r)
       r.datos.forEach(function (u) {
-        tabla.innerHTML += `<tr><td>${u.nombre}</td><td>${u.telefono}</td><td>${u.correo}</td><td>${u.grupo}</td><td><a class="btn btn-sm btn-warning" href="/usuarios?id=${u._id}"><i class="bi bi-pencil"></i></a> <button class="btn btn-sm btn-danger" onclick="confirmarEliminar('${u._id}','/php/usuarios/eliminar.php',cargar)"><i class="bi bi-trash"></i></button> <button class="btn btn-sm btn-secondary" onclick="imprimirPagina()"><i class="bi bi-printer"></i></button></td></tr>`
+        tabla.innerHTML += `<tr><td>${u.nombre}</td><td>${u.telefono}</td><td>${u.correo}</td><td>${u.grupo}</td><td><a class="btn btn-sm btn-warning" href="/usuarios?id=${u._id}"><i class="bi bi-pencil"></i></a> <button class="btn btn-sm btn-danger" onclick="confirmarEliminar('${u._id}','/api/usuarios/eliminar',cargar)"><i class="bi bi-trash"></i></button> <button class="btn btn-sm btn-secondary" onclick="imprimirPagina()"><i class="bi bi-printer"></i></button></td></tr>`
       })
     }
     cargar()
