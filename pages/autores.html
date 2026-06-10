@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autores</title>
+  <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/public/icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/public/css/estilos.css">
+</head>
+<body>
+  <div id="menu"></div>
+  <main class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <div class="formulario">
+          <h2 class="titulo-seccion mb-3"><i class="bi bi-person-lines-fill"></i> Registrar autor</h2>
+          <form id="formulario">
+            <input type="hidden" name="id" id="id">
+            <div class="mb-3"><label class="form-label">Nombre</label><input class="form-control" name="nombre" required></div>
+            <div class="mb-3"><label class="form-label">Nacionalidad</label><input class="form-control" name="nacionalidad" required></div>
+            <div class="mb-3"><label class="form-label">Correo</label><input class="form-control" name="correo" type="email" required></div>
+            <button class="btn btn-oro" type="submit"><i class="bi bi-save"></i> Guardar</button>
+            <a href="/lista-autores" class="btn btn-azul"><i class="bi bi-table"></i> Ver autores</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="pie"></div>
+  <script src="/public/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/sweetalert/sweetalert2.all.min.js"></script>
+  <script src="/public/js/script.js"></script>
+  <script>
+    const formulario = document.getElementById("formulario")
+    const id = tomarId()
+    if (id) {
+      pedir("/php/autores/obtener.php?id=" + id, "GET").then(function (r) {
+        if (r.ok && r.dato) llenarFormulario(formulario, r.dato)
+      })
+    }
+    formulario.addEventListener("submit", async function (e) {
+      e.preventDefault()
+      const r = await pedir("/php/autores/guardar.php", "POST", datosFormulario(formulario))
+      mensaje(r, function () { location.href = "/lista-autores" })
+    })
+  </script>
+</body>
+</html>

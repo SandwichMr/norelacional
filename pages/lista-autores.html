@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Autores</title>
+  <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/public/icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/public/css/estilos.css">
+</head>
+<body>
+  <div id="menu"></div>
+  <main class="container py-4">
+    <div class="tabla-contenedor">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <h2 class="titulo-seccion"><i class="bi bi-table"></i> Lista de autores</h2>
+        <div><a href="/autores" class="btn btn-oro"><i class="bi bi-plus-circle"></i> Nuevo</a> <button class="btn btn-azul" onclick="imprimirPagina()"><i class="bi bi-printer"></i> Imprimir</button></div>
+      </div>
+      <div class="input-group mb-3"><span class="input-group-text"><i class="bi bi-search"></i></span><input id="buscar" onkeyup="buscarTabla()" class="form-control" placeholder="Buscar autores"><button class="btn btn-oro" onclick="buscarTabla()">Buscar</button></div>
+      <div class="table-responsive"><table class="table table-bordered table-striped align-middle"><thead><tr><th>Nombre</th><th>Nacionalidad</th><th>Correo</th><th>Acciones</th></tr></thead><tbody id="tabla"></tbody></table></div>
+    </div>
+  </main>
+  <div id="pie"></div>
+  <script src="/public/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/sweetalert/sweetalert2.all.min.js"></script>
+  <script src="/public/js/script.js"></script>
+  <script>
+    async function cargar() {
+      const r = await pedir("/php/autores/listar.php", "GET")
+      const tabla = document.getElementById("tabla")
+      tabla.innerHTML = ""
+      if (!r.ok) return mensaje(r)
+      r.datos.forEach(function (a) {
+        tabla.innerHTML += `<tr><td>${a.nombre}</td><td>${a.nacionalidad}</td><td>${a.correo}</td><td><a class="btn btn-sm btn-warning" href="/autores?id=${a._id}"><i class="bi bi-pencil"></i></a> <button class="btn btn-sm btn-danger" onclick="confirmarEliminar('${a._id}','/php/autores/eliminar.php',cargar)"><i class="bi bi-trash"></i></button> <button class="btn btn-sm btn-secondary" onclick="imprimirPagina()"><i class="bi bi-printer"></i></button></td></tr>`
+      })
+    }
+    cargar()
+  </script>
+</body>
+</html>

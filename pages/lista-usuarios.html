@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Usuarios</title>
+  <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/public/icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/public/css/estilos.css">
+</head>
+<body>
+  <div id="menu"></div>
+  <main class="container py-4">
+    <div class="tabla-contenedor">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3"><h2 class="titulo-seccion"><i class="bi bi-table"></i> Lista de usuarios</h2><div><a href="/usuarios" class="btn btn-oro"><i class="bi bi-plus-circle"></i> Nuevo</a> <button class="btn btn-azul" onclick="imprimirPagina()"><i class="bi bi-printer"></i> Imprimir</button></div></div>
+      <div class="input-group mb-3"><span class="input-group-text"><i class="bi bi-search"></i></span><input id="buscar" onkeyup="buscarTabla()" class="form-control" placeholder="Buscar usuarios"><button class="btn btn-oro" onclick="buscarTabla()">Buscar</button></div>
+      <div class="table-responsive"><table class="table table-bordered table-striped align-middle"><thead><tr><th>Nombre</th><th>Telefono</th><th>Correo</th><th>Grupo</th><th>Acciones</th></tr></thead><tbody id="tabla"></tbody></table></div>
+    </div>
+  </main>
+  <div id="pie"></div>
+  <script src="/public/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/sweetalert/sweetalert2.all.min.js"></script>
+  <script src="/public/js/script.js"></script>
+  <script>
+    async function cargar() {
+      const r = await pedir("/php/usuarios/listar.php", "GET")
+      const tabla = document.getElementById("tabla")
+      tabla.innerHTML = ""
+      if (!r.ok) return mensaje(r)
+      r.datos.forEach(function (u) {
+        tabla.innerHTML += `<tr><td>${u.nombre}</td><td>${u.telefono}</td><td>${u.correo}</td><td>${u.grupo}</td><td><a class="btn btn-sm btn-warning" href="/usuarios?id=${u._id}"><i class="bi bi-pencil"></i></a> <button class="btn btn-sm btn-danger" onclick="confirmarEliminar('${u._id}','/php/usuarios/eliminar.php',cargar)"><i class="bi bi-trash"></i></button> <button class="btn btn-sm btn-secondary" onclick="imprimirPagina()"><i class="bi bi-printer"></i></button></td></tr>`
+      })
+    }
+    cargar()
+  </script>
+</body>
+</html>

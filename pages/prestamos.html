@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prestamos</title>
+  <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/public/icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/public/css/estilos.css">
+</head>
+<body>
+  <div id="menu"></div>
+  <main class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="formulario">
+          <h2 class="titulo-seccion mb-3"><i class="bi bi-arrow-left-right"></i> Registrar prestamo</h2>
+          <form id="formulario">
+            <input type="hidden" name="id" id="id">
+            <div class="mb-3"><label class="form-label">Libro</label><select class="form-select" name="libroId" id="libroId" required><option value="">Seleccionar libro</option></select></div>
+            <div class="mb-3"><label class="form-label">Usuario</label><select class="form-select" name="usuarioId" id="usuarioId" required><option value="">Seleccionar usuario</option></select></div>
+            <div class="row">
+              <div class="col-md-6 mb-3"><label class="form-label">Fecha prestamo</label><input class="form-control" name="fechaPrestamo" type="date" required></div>
+              <div class="col-md-6 mb-3"><label class="form-label">Fecha entrega</label><input class="form-control" name="fechaEntrega" type="date" required></div>
+            </div>
+            <div class="mb-3"><label class="form-label">Estado</label><select class="form-select" name="estado" required><option value="">Seleccionar estado</option><option>Prestado</option><option>Entregado</option><option>Retrasado</option></select></div>
+            <button class="btn btn-oro" type="submit"><i class="bi bi-save"></i> Guardar</button>
+            <a href="/lista-prestamos" class="btn btn-azul"><i class="bi bi-table"></i> Ver prestamos</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="pie"></div>
+  <script src="/public/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/sweetalert/sweetalert2.all.min.js"></script>
+  <script src="/public/js/script.js"></script>
+  <script>
+    const formulario = document.getElementById("formulario")
+    async function cargarCombos() {
+      const libros = await pedir("/php/libros/listar.php", "GET")
+      const usuarios = await pedir("/php/usuarios/listar.php", "GET")
+      if (libros.ok) libros.datos.forEach(function (l) { document.getElementById("libroId").innerHTML += `<option value="${l._id}">${l.titulo}</option>` })
+      if (usuarios.ok) usuarios.datos.forEach(function (u) { document.getElementById("usuarioId").innerHTML += `<option value="${u._id}">${u.nombre}</option>` })
+    }
+    async function cargarEdicion() {
+      const id = tomarId()
+      if (id) {
+        const r = await pedir("/php/prestamos/obtener.php?id=" + id, "GET")
+        if (r.ok && r.dato) llenarFormulario(formulario, r.dato)
+      }
+    }
+    formulario.addEventListener("submit", async function (e) {
+      e.preventDefault()
+      const r = await pedir("/php/prestamos/guardar.php", "POST", datosFormulario(formulario))
+      mensaje(r, function () { location.href = "/lista-prestamos" })
+    })
+    cargarCombos().then(cargarEdicion)
+  </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual de Usuario</title>
+  <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/public/icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/public/css/estilos.css">
+</head>
+<body>
+  <div id="menu"></div>
+  <main class="container py-4">
+    <section class="manual-bloque text-center">
+      <img src="/public/img/img9.jpg" class="manual-img mb-3" alt="Portada">
+      <h1 class="titulo-seccion">Manual de Usuario</h1>
+      <h3>Proyecto Biblioteca Juvenil</h3>
+      <p><strong>Alumno:</strong> Nombre del alumno</p>
+      <p><strong>Modulo:</strong> Desarrollo de aplicaciones web</p>
+      <p><strong>Semestre:</strong> Sexto semestre</p>
+      <p><strong>Fecha:</strong> 10 de junio de 2026</p>
+    </section>
+    <section class="manual-bloque">
+      <h2 class="titulo-seccion">Indice</h2>
+      <ol><li>Proposito del sistema</li><li>Tecnologias utilizadas</li><li>Como ejecutar el sistema</li><li>Base de datos</li><li>CRUD paso a paso</li><li>Consultas PHP separadas</li></ol>
+    </section>
+    <section class="manual-bloque">
+      <h2 class="titulo-seccion">Proposito del sistema</h2>
+      <p>Biblioteca Juvenil sirve para registrar y consultar autores, libros, usuarios y prestamos de una biblioteca escolar pequena.</p>
+      <img src="/public/img/img10.jpg" class="manual-img" alt="Sistema">
+    </section>
+    <section class="manual-bloque">
+      <h2 class="titulo-seccion">Tecnologias utilizadas</h2>
+      <p>El proyecto usa HTML, CSS, Bootstrap local, Bootstrap Icons local, JavaScript basico, SweetAlert2 local, Node.js, PHP y MongoDB.</p>
+      <p>Node se usa para correr el proyecto con el comando node server.js. PHP se usa separado para consultar y modificar MongoDB.</p>
+    </section>
+    <section class="manual-bloque">
+      <h2 class="titulo-seccion">Como ejecutar el sistema</h2>
+      <pre class="bg-light p-3 rounded">cd /home/leonardo/biblioteca_juvenil
+node server.js</pre>
+      <p>Despues se abre http://localhost:3000 en el navegador.</p>
+    </section>
+    <section class="manual-bloque">
+      <h2 class="titulo-seccion">Base de datos y colecciones</h2>
+      <p>La base se llama biblioteca_juvenil y usa las colecciones autores, libros, usuarios y prestamos.</p>
+      <ul><li>autores: nombre, nacionalidad, correo</li><li>libros: titulo, genero, anio, autorId</li><li>usuarios: nombre, telefono, correo, grupo</li><li>prestamos: libroId, usuarioId, fechaPrestamo, fechaEntrega, estado</li></ul>
+    </section>
+    <section class="manual-bloque">
+      <h2 class="titulo-seccion">ObjectId y aggregate</h2>
+      <p>Los campos autorId, libroId y usuarioId guardan ObjectId. En prestamos se usa aggregate con $lookup para unir libros y usuarios, $unwind para acomodar los datos y $project para mostrar solo los campos importantes.</p>
+    </section>
+    <section class="manual-bloque">
+      <h2 class="titulo-seccion">CRUD paso a paso</h2>
+      <p>Crear: llenar un formulario y guardar. Mostrar: entrar a la lista. Editar: usar el lapiz. Actualizar: guardar cambios. Eliminar: usar basura y confirmar con SweetAlert2.</p>
+      <img src="/public/img/img20.jpg" class="manual-img" alt="CRUD">
+    </section>
+  </main>
+  <div id="pie"></div>
+  <script src="/public/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/sweetalert/sweetalert2.all.min.js"></script>
+  <script src="/public/js/script.js"></script>
+</body>
+</html>

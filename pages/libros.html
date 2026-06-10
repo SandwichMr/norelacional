@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libros</title>
+  <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/public/icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/public/css/estilos.css">
+</head>
+<body>
+  <div id="menu"></div>
+  <main class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="formulario">
+          <h2 class="titulo-seccion mb-3"><i class="bi bi-journal-bookmark"></i> Registrar libro</h2>
+          <form id="formulario">
+            <input type="hidden" name="id" id="id">
+            <div class="mb-3"><label class="form-label">Titulo</label><input class="form-control" name="titulo" required></div>
+            <div class="mb-3"><label class="form-label">Genero</label><input class="form-control" name="genero" required></div>
+            <div class="mb-3"><label class="form-label">Anio</label><input class="form-control" name="anio" type="number" required></div>
+            <div class="mb-3"><label class="form-label">Autor</label><select class="form-select" name="autorId" id="autorId" required><option value="">Seleccionar autor</option></select></div>
+            <button class="btn btn-oro" type="submit"><i class="bi bi-save"></i> Guardar</button>
+            <a href="/lista-libros" class="btn btn-azul"><i class="bi bi-table"></i> Ver libros</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="pie"></div>
+  <script src="/public/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/sweetalert/sweetalert2.all.min.js"></script>
+  <script src="/public/js/script.js"></script>
+  <script>
+    const formulario = document.getElementById("formulario")
+    async function cargarAutores() {
+      const r = await pedir("/php/autores/listar.php", "GET")
+      if (!r.ok) return
+      r.datos.forEach(function (a) {
+        document.getElementById("autorId").innerHTML += `<option value="${a._id}">${a.nombre}</option>`
+      })
+    }
+    async function cargarEdicion() {
+      const id = tomarId()
+      if (id) {
+        const r = await pedir("/php/libros/obtener.php?id=" + id, "GET")
+        if (r.ok && r.dato) llenarFormulario(formulario, r.dato)
+      }
+    }
+    formulario.addEventListener("submit", async function (e) {
+      e.preventDefault()
+      const r = await pedir("/php/libros/guardar.php", "POST", datosFormulario(formulario))
+      mensaje(r, function () { location.href = "/lista-libros" })
+    })
+    cargarAutores().then(cargarEdicion)
+  </script>
+</body>
+</html>
