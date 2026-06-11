@@ -7,6 +7,19 @@ const puerto = 3000
 const cliente = new MongoClient("mongodb://127.0.0.1:27017")
 let db
 
+function textoIgual(texto) {
+  const limpio = String(texto).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+  return new RegExp("^" + limpio + "$", "i")
+}
+
+async function existeDuplicado(coleccion, filtro, id) {
+  if (id) {
+    filtro._id = { $ne: new ObjectId(id) }
+  }
+  const encontrado = await db.collection(coleccion).findOne(filtro)
+  return encontrado != null
+}
+
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use("/public", express.static(path.join(__dirname, "public")))
@@ -76,6 +89,16 @@ app.post("/api/autores/guardar", async function (req, res) {
       nacionalidad: req.body.nacionalidad,
       correo: req.body.correo
     }
+    const duplicado = await existeDuplicado("autores", {
+      $or: [
+        { nombre: textoIgual(req.body.nombre) },
+        { correo: textoIgual(req.body.correo) }
+      ]
+    }, req.body.id)
+    if (duplicado) {
+      res.json({ ok: false, tipo: "warning", mensaje: "Ya existe un autor con ese nombre o correo" })
+      return
+    }
     if (req.body.id) {
       await db.collection("autores").updateOne({ _id: new ObjectId(req.body.id) }, { $set: datos })
       res.json({ ok: true, mensaje: "Autor actualizado correctamente" })
@@ -90,8 +113,12 @@ app.post("/api/autores/guardar", async function (req, res) {
 
 app.post("/api/autores/eliminar", async function (req, res) {
   try {
-    await db.collection("autores").deleteOne({ _id: new ObjectId(req.body.id) })
-    res.json({ ok: true, mensaje: "Autor eliminado correctamente" })
+    const resultado = await db.collection("autores").deleteOne({ _id: new ObjectId(req.body.id) })
+    if (resultado.deletedCount == 0) {
+      res.json({ ok: false, tipo: "warning", mensaje: "El autor ya no existe o ya fue eliminado" })
+    } else {
+      res.json({ ok: true, mensaje: "Autor eliminado correctamente" })
+    }
   } catch (error) {
     res.json({ ok: false, mensaje: "No se pudo eliminar el autor" })
   }
@@ -127,6 +154,13 @@ app.post("/api/libros/guardar", async function (req, res) {
       anio: Number(req.body.anio),
       autorId: new ObjectId(req.body.autorId)
     }
+    const duplicado = await existeDuplicado("libros", {
+      titulo: textoIgual(req.body.titulo)
+    }, req.body.id)
+    if (duplicado) {
+      res.json({ ok: false, tipo: "warning", mensaje: "Ya existe un libro con ese titulo" })
+      return
+    }
     if (req.body.id) {
       await db.collection("libros").updateOne({ _id: new ObjectId(req.body.id) }, { $set: datos })
       res.json({ ok: true, mensaje: "Libro actualizado correctamente" })
@@ -141,8 +175,12 @@ app.post("/api/libros/guardar", async function (req, res) {
 
 app.post("/api/libros/eliminar", async function (req, res) {
   try {
-    await db.collection("libros").deleteOne({ _id: new ObjectId(req.body.id) })
-    res.json({ ok: true, mensaje: "Libro eliminado correctamente" })
+    const resultado = await db.collection("libros").deleteOne({ _id: new ObjectId(req.body.id) })
+    if (resultado.deletedCount == 0) {
+      res.json({ ok: false, tipo: "warning", mensaje: "El libro ya no existe o ya fue eliminado" })
+    } else {
+      res.json({ ok: true, mensaje: "Libro eliminado correctamente" })
+    }
   } catch (error) {
     res.json({ ok: false, mensaje: "No se pudo eliminar el libro" })
   }
@@ -174,6 +212,16 @@ app.post("/api/usuarios/guardar", async function (req, res) {
       correo: req.body.correo,
       grupo: req.body.grupo
     }
+    const duplicado = await existeDuplicado("usuarios", {
+      $or: [
+        { correo: textoIgual(req.body.correo) },
+        { telefono: req.body.telefono }
+      ]
+    }, req.body.id)
+    if (duplicado) {
+      res.json({ ok: false, tipo: "warning", mensaje: "Ya existe un usuario con ese correo o telefono" })
+      return
+    }
     if (req.body.id) {
       await db.collection("usuarios").updateOne({ _id: new ObjectId(req.body.id) }, { $set: datos })
       res.json({ ok: true, mensaje: "Usuario actualizado correctamente" })
@@ -188,8 +236,12 @@ app.post("/api/usuarios/guardar", async function (req, res) {
 
 app.post("/api/usuarios/eliminar", async function (req, res) {
   try {
-    await db.collection("usuarios").deleteOne({ _id: new ObjectId(req.body.id) })
-    res.json({ ok: true, mensaje: "Usuario eliminado correctamente" })
+    const resultado = await db.collection("usuarios").deleteOne({ _id: new ObjectId(req.body.id) })
+    if (resultado.deletedCount == 0) {
+      res.json({ ok: false, tipo: "warning", mensaje: "El usuario ya no existe o ya fue eliminado" })
+    } else {
+      res.json({ ok: true, mensaje: "Usuario eliminado correctamente" })
+    }
   } catch (error) {
     res.json({ ok: false, mensaje: "No se pudo eliminar el usuario" })
   }
@@ -238,6 +290,15 @@ app.post("/api/prestamos/guardar", async function (req, res) {
       fechaEntrega: req.body.fechaEntrega,
       estado: req.body.estado
     }
+    const duplicado = await existeDuplicado("prestamos", {
+      libroId: datos.libroId,
+      usuarioId: datos.usuarioId,
+      fechaPrestamo: req.body.fechaPrestamo
+    }, req.body.id)
+    if (duplicado) {
+      res.json({ ok: false, tipo: "warning", mensaje: "Ya existe un prestamo igual para ese libro, usuario y fecha" })
+      return
+    }
     if (req.body.id) {
       await db.collection("prestamos").updateOne({ _id: new ObjectId(req.body.id) }, { $set: datos })
       res.json({ ok: true, mensaje: "Prestamo actualizado correctamente" })
@@ -252,8 +313,12 @@ app.post("/api/prestamos/guardar", async function (req, res) {
 
 app.post("/api/prestamos/eliminar", async function (req, res) {
   try {
-    await db.collection("prestamos").deleteOne({ _id: new ObjectId(req.body.id) })
-    res.json({ ok: true, mensaje: "Prestamo eliminado correctamente" })
+    const resultado = await db.collection("prestamos").deleteOne({ _id: new ObjectId(req.body.id) })
+    if (resultado.deletedCount == 0) {
+      res.json({ ok: false, tipo: "warning", mensaje: "El prestamo ya no existe o ya fue eliminado" })
+    } else {
+      res.json({ ok: true, mensaje: "Prestamo eliminado correctamente" })
+    }
   } catch (error) {
     res.json({ ok: false, mensaje: "No se pudo eliminar el prestamo" })
   }

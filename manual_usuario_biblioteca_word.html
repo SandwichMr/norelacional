@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Manual de Usuario - Biblioteca Juvenil</title>
+  <style>
+    @page {
+      size: letter;
+      margin: 2.5cm 2.3cm 2.5cm 2.3cm;
+    }
+    body {
+      font-family: "Liberation Serif", "Times New Roman", serif;
+      font-size: 12pt;
+      line-height: 1.35;
+      color: #111;
+    }
+    h1, h2, h3 {
+      font-family: "Liberation Sans", Arial, sans-serif;
+      color: #111;
+    }
+    h1 {
+      font-size: 22pt;
+      text-align: center;
+      margin: 14pt 0;
+    }
+    h2 {
+      font-size: 16pt;
+      margin-top: 20pt;
+      border-bottom: 1px solid #333;
+      padding-bottom: 4pt;
+    }
+    h3 {
+      font-size: 13pt;
+      margin-top: 12pt;
+    }
+    p {
+      text-align: justify;
+      margin: 7pt 0;
+    }
+    .portada {
+      text-align: center;
+      padding-top: 60pt;
+    }
+    .portada p {
+      text-align: center;
+      font-size: 13pt;
+    }
+    .escuela {
+      font-size: 16pt;
+      font-weight: bold;
+      margin-bottom: 30pt;
+    }
+    .titulo {
+      font-size: 24pt;
+      font-weight: bold;
+      margin-top: 25pt;
+      margin-bottom: 25pt;
+    }
+    .subtitulo {
+      font-size: 18pt;
+      font-weight: bold;
+      margin-bottom: 40pt;
+    }
+    .salto {
+      page-break-after: always;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10pt 0 16pt 0;
+    }
+    th, td {
+      border: 1px solid #111;
+      padding: 6pt;
+      vertical-align: top;
+    }
+    th {
+      background: #e9e9e9;
+      font-weight: bold;
+      text-align: center;
+    }
+    ul, ol {
+      margin-top: 5pt;
+    }
+    li {
+      margin-bottom: 4pt;
+    }
+    .codigo {
+      font-family: "Liberation Mono", Consolas, monospace;
+      background: #f2f2f2;
+      border: 1px solid #999;
+      padding: 8pt;
+      white-space: pre-wrap;
+      margin: 8pt 0 12pt 0;
+    }
+    .imagen {
+      width: 100%;
+      max-height: 220pt;
+      object-fit: cover;
+      border: 1px solid #888;
+      margin: 8pt 0;
+    }
+    .captura {
+      width: 31%;
+      height: 110pt;
+      object-fit: cover;
+      border: 1px solid #888;
+      margin-right: 1%;
+    }
+    .centrado {
+      text-align: center;
+    }
+    .nota {
+      border-left: 4px solid #555;
+      padding-left: 10pt;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="portada salto">
+    <p class="escuela">Manual de Usuario para Sistema No Relacional</p>
+    <p class="titulo">Biblioteca Juvenil</p>
+    <p class="subtitulo">Sistema Web para Biblioteca Escolar</p>
+    <p><strong>Alumno:</strong> Nombre del alumno</p>
+    <p><strong>Modulo:</strong> Desarrollo de aplicaciones web</p>
+    <p><strong>Semestre:</strong> Sexto semestre</p>
+    <p><strong>Materia:</strong> Base de datos no relacionales</p>
+    <p><strong>Fecha:</strong> 10 de junio de 2026</p>
+  </div>
+
+  <h1>Indice</h1>
+  <ol>
+    <li>Proposito del sistema</li>
+    <li>Tecnologias utilizadas</li>
+    <li>Como ejecutar el sistema</li>
+    <li>Configuracion necesaria</li>
+    <li>Diagrama de colecciones</li>
+    <li>Base de datos y colecciones</li>
+    <li>Relaciones NoSQL</li>
+    <li>Restricciones de integridad</li>
+    <li>Funcionamiento de los estilos</li>
+    <li>Uso del sistema paso a paso</li>
+    <li>CRUD paso a paso</li>
+    <li>Capturas de pantalla simuladas</li>
+    <li>Validaciones y manejo de errores</li>
+    <li>Lista de verificacion</li>
+  </ol>
+  <div class="salto"></div>
+
+  <h1>Manual de Usuario</h1>
+
+  <h2>1. Proposito del Sistema</h2>
+  <p>Biblioteca Juvenil es un sistema web basico para administrar una biblioteca escolar pequena. El sistema permite registrar autores, libros, usuarios y prestamos. Tambien permite consultar informacion en tablas, buscar registros, editar datos, actualizar documentos, eliminar registros e imprimir listas.</p>
+  <p>El proposito principal es facilitar el control de los libros disponibles, los autores registrados, los alumnos que usan la biblioteca y los prestamos activos o entregados.</p>
+  <img class="imagen" src="public/img/img10.jpg" alt="Imagen del sistema">
+
+  <h2>2. Tecnologias Utilizadas</h2>
+  <p>El proyecto utiliza tecnologias sencillas y adecuadas para una aplicacion escolar de base de datos no relacional.</p>
+  <table>
+    <tr><th>Tecnologia</th><th>Uso dentro del sistema</th></tr>
+    <tr><td>HTML</td><td>Estructura de las paginas del sistema.</td></tr>
+    <tr><td>CSS</td><td>Estilos visuales personalizados.</td></tr>
+    <tr><td>Bootstrap local</td><td>Diseno de botones, tablas, tarjetas y formularios.</td></tr>
+    <tr><td>Bootstrap Icons local</td><td>Iconos en la barra de navegacion y botones.</td></tr>
+    <tr><td>JavaScript basico</td><td>Peticiones al servidor, busquedas, impresion y mensajes.</td></tr>
+    <tr><td>SweetAlert2 local</td><td>Alertas de exito, error y confirmacion.</td></tr>
+    <tr><td>Node.js</td><td>Servidor principal del sistema.</td></tr>
+    <tr><td>Express</td><td>Rutas con app.get y app.post.</td></tr>
+    <tr><td>MongoDB</td><td>Base de datos no relacional.</td></tr>
+  </table>
+
+  <h2>3. Como Ejecutar el Sistema</h2>
+  <p>Para ejecutar el sistema se debe tener MongoDB activo. Despues se abre una terminal en la carpeta del proyecto y se ejecuta el servidor Node.</p>
+  <div class="codigo">cd /home/leonardo/biblioteca_juvenil
+node server.js</div>
+  <p>Cuando el servidor este encendido, se abre el navegador en la direccion:</p>
+  <div class="codigo">http://localhost:3000</div>
+  <p>El archivo principal es <strong>server.js</strong>. En ese archivo estan las rutas <strong>app.get</strong> para mostrar paginas y consultar datos, y las rutas <strong>app.post</strong> para guardar, actualizar y eliminar informacion.</p>
+
+  <h2>4. Configuracion Necesaria</h2>
+  <table>
+    <tr><th>Elemento</th><th>Configuracion</th></tr>
+    <tr><td>Servidor</td><td>Node.js ejecutando server.js en el puerto 3000.</td></tr>
+    <tr><td>Base de datos</td><td>MongoDB en mongodb://127.0.0.1:27017.</td></tr>
+    <tr><td>Nombre de la base</td><td>biblioteca_juvenil.</td></tr>
+    <tr><td>Paginas</td><td>Carpeta pages.</td></tr>
+    <tr><td>Archivos publicos</td><td>Carpeta public.</td></tr>
+    <tr><td>Estilos</td><td>public/css/estilos.css.</td></tr>
+    <tr><td>JavaScript</td><td>public/js/script.js.</td></tr>
+    <tr><td>Imagenes</td><td>public/img.</td></tr>
+  </table>
+
+  <h2>5. Diagrama de Colecciones</h2>
+  <p>Como el proyecto usa MongoDB, el diagrama representa colecciones y referencias por ObjectId. No se usan llaves foraneas SQL, sino referencias guardadas en campos.</p>
+  <table>
+    <tr>
+      <th>autores</th>
+      <th>libros</th>
+      <th>prestamos</th>
+      <th>usuarios</th>
+    </tr>
+    <tr>
+      <td>_id<br>nombre<br>nacionalidad<br>correo</td>
+      <td>_id<br>titulo<br>genero<br>anio<br>autorId</td>
+      <td>_id<br>libroId<br>usuarioId<br>fechaPrestamo<br>fechaEntrega<br>estado</td>
+      <td>_id<br>nombre<br>telefono<br>correo<br>grupo</td>
+    </tr>
+    <tr>
+      <td>Un autor puede estar relacionado con muchos libros.</td>
+      <td>Un libro pertenece a un autor y puede aparecer en prestamos.</td>
+      <td>Un prestamo relaciona un libro con un usuario.</td>
+      <td>Un usuario puede tener varios prestamos.</td>
+    </tr>
+  </table>
+
+  <h2>6. Base de Datos y Colecciones</h2>
+  <p>La base de datos se llama <strong>biblioteca_juvenil</strong>. Contiene cuatro colecciones principales.</p>
+  <table>
+    <tr><th>Coleccion</th><th>Campos</th><th>Descripcion</th></tr>
+    <tr><td>autores</td><td>_id, nombre, nacionalidad, correo</td><td>Guarda la informacion basica de los autores.</td></tr>
+    <tr><td>libros</td><td>_id, titulo, genero, anio, autorId</td><td>Guarda los libros y la referencia del autor.</td></tr>
+    <tr><td>usuarios</td><td>_id, nombre, telefono, correo, grupo</td><td>Guarda los alumnos o usuarios de biblioteca.</td></tr>
+    <tr><td>prestamos</td><td>_id, libroId, usuarioId, fechaPrestamo, fechaEntrega, estado</td><td>Guarda los prestamos de libros.</td></tr>
+  </table>
+  <img class="imagen" src="public/img/img14.jpg" alt="Colecciones">
+
+  <h2>7. Relaciones NoSQL: ObjectId, $lookup y aggregate</h2>
+  <p>MongoDB crea un campo <strong>_id</strong> para cada documento. El sistema usa <strong>ObjectId</strong> para relacionar documentos entre colecciones.</p>
+  <ul>
+    <li><strong>libros.autorId:</strong> guarda el _id de autores.</li>
+    <li><strong>prestamos.libroId:</strong> guarda el _id de libros.</li>
+    <li><strong>prestamos.usuarioId:</strong> guarda el _id de usuarios.</li>
+  </ul>
+  <p>En la lista de prestamos se usa una consulta con <strong>aggregate()</strong>. Esta consulta incluye <strong>$lookup</strong> para unir prestamos con libros y usuarios. Despues usa <strong>$unwind</strong> para convertir los arreglos relacionados en objetos sencillos. Finalmente usa <strong>$project</strong> para mostrar solo campos importantes.</p>
+  <div class="codigo">prestamos.aggregate([
+  $lookup con libros,
+  $lookup con usuarios,
+  $unwind libro,
+  $unwind usuario,
+  $project nombreUsuario, tituloLibro, fechas y estado
+])</div>
+
+  <h2>8. Restricciones de Integridad</h2>
+  <p>El sistema usa restricciones sencillas porque es un proyecto escolar con MongoDB. Para registrar un libro se debe seleccionar un autor existente. Para registrar un prestamo se debe seleccionar un libro existente y un usuario existente.</p>
+  <p>MongoDB no maneja llaves foraneas como SQL, por eso no se aplica cascade, set null ni restrict automatico desde la base de datos. La integridad se maneja desde el formulario, usando listas desplegables que cargan documentos existentes.</p>
+  <p>Si se elimina un documento relacionado, el sistema no borra automaticamente los demas documentos. Esta decision mantiene el codigo sencillo y facil de entender.</p>
+
+  <h2>9. Funcionamiento de los Estilos</h2>
+  <p>El diseno usa colores relacionados con una biblioteca: azul oscuro, blanco, beige, cafe claro y detalles dorados. La barra de navegacion se mantiene igual en todas las paginas.</p>
+  <p>Las tarjetas se usan para mostrar accesos rapidos. Los formularios estan centrados, las tablas tienen encabezados claros y los botones incluyen iconos para que el usuario identifique cada accion facilmente.</p>
+  <img class="captura" src="public/img/img15.jpg" alt="Estilo uno">
+  <img class="captura" src="public/img/img16.jpg" alt="Estilo dos">
+  <img class="captura" src="public/img/img6.jpg" alt="Estilo tres">
+
+  <h2>10. Uso del Sistema Paso a Paso</h2>
+  <ol>
+    <li>Entrar a http://localhost:3000.</li>
+    <li>Usar la barra de navegacion para elegir autores, libros, usuarios o prestamos.</li>
+    <li>Entrar a una pagina de registro para llenar el formulario.</li>
+    <li>Presionar Guardar para enviar los datos al servidor.</li>
+    <li>Entrar a la pagina de lista para ver los datos guardados.</li>
+    <li>Usar el campo de busqueda para filtrar registros.</li>
+    <li>Usar el boton de lapiz para editar.</li>
+    <li>Usar el boton de basura para eliminar.</li>
+    <li>Usar el boton de impresora para imprimir una lista.</li>
+  </ol>
+
+  <h2>11. CRUD Paso a Paso</h2>
+  <h3>Crear</h3>
+  <p>El usuario llena un formulario y presiona Guardar. El navegador manda los datos al servidor con JavaScript. El servidor recibe los datos en una ruta app.post y usa insertOne para guardar en MongoDB.</p>
+  <h3>Mostrar</h3>
+  <p>El usuario entra a una lista. La pagina pide datos a una ruta app.get. El servidor consulta MongoDB con find o aggregate y regresa los datos.</p>
+  <h3>Editar y Actualizar</h3>
+  <p>El usuario presiona el boton de lapiz. El sistema abre el formulario con el id del registro, carga la informacion y permite modificarla. Al guardar, el servidor usa updateOne.</p>
+  <h3>Eliminar</h3>
+  <p>El usuario presiona el boton de basura. SweetAlert2 pide confirmacion. Si el usuario acepta, el servidor usa deleteOne para eliminar el documento.</p>
+  <img class="imagen" src="public/img/img20.jpg" alt="CRUD">
+
+  <h2>12. Capturas de Pantalla Simuladas</h2>
+  <p>Las siguientes imagenes se incluyen como capturas simuladas para mostrar el estilo general del proyecto.</p>
+  <img class="captura" src="public/img/img17.jpg" alt="Captura uno">
+  <img class="captura" src="public/img/img18.jpg" alt="Captura dos">
+  <img class="captura" src="public/img/img19.jpg" alt="Captura tres">
+
+  <h2>13. Validaciones y Manejo de Errores</h2>
+  <ul>
+    <li>Los campos importantes usan required para evitar datos vacios.</li>
+    <li>Los correos usan type="email".</li>
+    <li>El telefono usa pattern y maxlength para capturar 10 numeros.</li>
+    <li>Las fechas usan type="date".</li>
+    <li>SweetAlert2 muestra mensajes de exito al guardar, actualizar o eliminar.</li>
+    <li>SweetAlert2 pide confirmacion antes de eliminar registros.</li>
+    <li>Si ocurre un error de MongoDB, el servidor responde un mensaje y la pagina lo muestra.</li>
+  </ul>
+
+  <h2>14. Lista de Verificacion del Manual</h2>
+  <table>
+    <tr><th>Elemento</th><th>Cumple</th></tr>
+    <tr><td>Incluye portada con nombre del proyecto, alumno, modulo, semestre y fecha.</td><td class="centrado">Si</td></tr>
+    <tr><td>Incluye indice o estructura del documento.</td><td class="centrado">Si</td></tr>
+    <tr><td>Describe el proposito del sistema.</td><td class="centrado">Si</td></tr>
+    <tr><td>Menciona las tecnologias utilizadas: Node y MongoDB.</td><td class="centrado">Si</td></tr>
+    <tr><td>Explica como ejecutar el software o programa.</td><td class="centrado">Si</td></tr>
+    <tr><td>Incluye diagrama entidad-relacion adaptado a colecciones NoSQL.</td><td class="centrado">Si</td></tr>
+    <tr><td>Indica configuracion necesaria de base de datos, servidor y archivos.</td><td class="centrado">Si</td></tr>
+    <tr><td>Explica el funcionamiento de los estilos.</td><td class="centrado">Si</td></tr>
+    <tr><td>Describe el uso del sistema y CRUD paso a paso.</td><td class="centrado">Si</td></tr>
+    <tr><td>Incluye capturas de pantalla claras o simuladas.</td><td class="centrado">Si</td></tr>
+    <tr><td>Explica la base de datos y sus colecciones.</td><td class="centrado">Si</td></tr>
+    <tr><td>Describe relaciones NoSQL con $lookup y aggregate.</td><td class="centrado">Si</td></tr>
+    <tr><td>Explica restricciones de integridad segun el proyecto.</td><td class="centrado">Si</td></tr>
+    <tr><td>Menciona validaciones y manejo de errores.</td><td class="centrado">Si</td></tr>
+    <tr><td>Redaccion clara y sin errores ortograficos importantes.</td><td class="centrado">Si</td></tr>
+    <tr><td>Documento ordenado y facil de entender.</td><td class="centrado">Si</td></tr>
+  </table>
+</body>
+</html>

@@ -72,7 +72,9 @@ function mensaje(resultado, despues) {
       if (despues) despues()
     })
   } else {
-    Swal.fire("Error", resultado.mensaje || "Ocurrio un error", "error")
+    const icono = resultado.tipo || "error"
+    const titulo = icono === "warning" ? "Aviso" : "Error"
+    Swal.fire(titulo, resultado.mensaje || "Ocurrio un error", icono)
   }
 }
 
